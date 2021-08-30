@@ -1,11 +1,13 @@
 const express = require ('express');
 const app = express();
+
+var router = express.Router();
 const port = process.env.PORT || 9800;
 const mongo = require ('mongodb')
 const MongoClient = mongo.MongoClient;
 const bodyParser = require ('body-parser')
 const cors = require ('cors');
-// app.use(cors)
+ app.use(cors())
 const mongourl = "mongodb://localhost:27017";
 
 let db;
@@ -18,27 +20,25 @@ app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 
 });
+
 //Read
 app.get('/services',(req,res)=>{
-    var query = {}
-    if(req.query.type){
-        query={type:req.query.type,isActive:true}
-    }else if(req.query.role){
-        query={type:req.query.role,isActive:true}
-
+    var query ={}
+    if(req.query.service){
+        query={service:req.query.service,isActive:true}
+    }else{
+        query = {isActive:true}   
     }
-    else{
-        query={isActive:true}
-    }
+  
     db.collection(col_name).find(query).toArray((err,result)=>{
         if(err)throw err;
         res.send(result)
     })
 })
-///serviceDetails
+//userDetails
 app.get('/service/:id',(req,res)=>{
     var id = mongo.ObjectId(req.params.id)
-    db.collection(col_name).find(id).toArray((err,result)=>{
+    db.collection(col_name).find({_id:id}).toArray((err,result)=>{
         if(err)throw err;
         res.send(result)
     })
@@ -57,22 +57,20 @@ app.put('/updateService',(req,res)=>{
         {_id:mongo.ObjectId(req.body._id)},
         {
             $set:{
-             name:req.body.name,
-             type:req.body.type,
-             role:req.body.role,
-             isActive:true
+                service_name:req.body. service_name,
+                service:req.body.service,
+                isActive: true
             }
-            },(err,result)=>{
-                if(err) throw err;
-                res.send('Data Updated')
-
-            }
-        
+        },(err,result)=>{
+            if(err)throw err;
+            res.send('Data Updated')
+        }
     )
 })
-//delete
+//delet
 app.delete('/deleteService',(req,res)=>{
-    db.collection(col_name).remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
+    db.collection(col_name)
+    .remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
         if(err) throw err;
         res.send('Data Deleted')
     })
@@ -83,35 +81,30 @@ app.put('/deactivateService',(req,res)=>{
         {_id:mongo.ObjectId(req.body._id)},
         {
             $set:{
-           
-             isActive:false
+                isActive:false
             }
-            },(err,result)=>{
-                if(err) throw err;
-                res.send('User Deactivated')
-
-            }
-        
+        },(err,result)=>{
+            if(err)throw err;
+            res.send('Service Deactivated')
+        }
     )
 })
-
-//activateDelete(activate)
+//softDelete(activate)
 app.put('/activateService',(req,res)=>{
     db.collection(col_name).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
             $set:{
-           
-             isActive:true
+                isActive:true
             }
-            },(err,result)=>{
-                if(err) throw err;
-                res.send('User Activated')
-
-            }
-        
+        },(err,result)=>{
+            if(err)throw err;
+            res.send('Service Activated')
+        }
     )
 })
+
+app.use("/",router)
 
 //Db Connection
 MongoClient.connect(mongourl,(err,client)=>{
