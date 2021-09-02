@@ -14,6 +14,7 @@ let db;
 let col_name = "freelanceapi"
 // let db;
  let col_name2="freelanceapi2"
+ let col_name3="freelanceapi3"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -59,6 +60,7 @@ app.put('/updateService',(req,res)=>{
         {_id:mongo.ObjectId(req.body._id)},
         {
             $set:{
+                _id:req.body._id,
                 service_name:req.body. service_name,
                 service:req.body.service,
                 isActive: true
@@ -207,6 +209,23 @@ app.put('/activateType',(req,res)=>{
         }
     )
 })
+
+// Booking type
+app.get('/booking',(req,res)=>{
+    db.collection(col_name3).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+//Insert
+app.post('/addBooking',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name3).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+    })
+})
+
 
 app.use("/",router)
 
