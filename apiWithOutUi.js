@@ -17,6 +17,8 @@ let col_name = "freelanceapi"
  let col_name3="freelanceapi3"
  let col_name4="freelanceapi4"
  let col_name5="freelanceapi5"
+ let col_name6="freelanceapi6"
+//  let col_name6="freelanceapi6"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -227,108 +229,89 @@ app.post('/addBooking',(req,res)=>{
         res.send('Data Added')
     })
 })
-//servicelist
-//Read
-// app.get('/servicelist',(req,res)=>{
-//     var query = {}
-//     query = {isActive:true}
-//     db.collection(col_name4).find(query).toArray((err,result)=>{
-//         if(err) throw err;
-//         res.send(result)
-//     })
-// })
-// //servicelist Details
-// app.get('/servicelist/:id',(req,res)=>{
-//   var id = mongo.ObjectId (req.params.id)
-//     db.collection(col_name4).find({_id:id}).toArray((err,result)=>{
-//         if(err) throw err;
-//         res.send(result)
-//     })
 
-// })
-// //Insert
-// app.post('/addServicelist',(req,res)=>{
-//     console.log(req.body)
-//     db.collection(col_name4).insert(req.body,(err,result)=>{
-//         if(err) throw err;
-//         res.send('Data Added')
-//     })
-// })
+// Read
+app.get('/servicelists',(req,res)=>{
+    db.collection(col_name4).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+
+//Add
+app.post('/addServicelist',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name4).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+    })
+  
+    })
+
+
 //update
-// app.put('updateServicelist',(req,res)=>{
-//     db.collection(col_name4).updateOne(
-//         {_id:mongo.ObjectId (req.body._id)},
-//         {
-//             $set:{
-               
-//                 name: req.body.name,
-//                 service_name:req.body.service_name,
-//                 service:req.body.service,
-//                 thumb:req.body.thumb,
-//                 about:req.body.about,
-//                 cost:req.body.cost ,
-//                 "isActive": true
-//             }
-//         },(err,result)=>{
-//             if(err)throw err;
-//             res.send('Data Updated')
+app.put('/updateServicelist',(req,res)=>{
+    db.collection(col_name4).updateOne(
+        {_id:mongo.ObjectId(req.body._id)},
+        {
+            $set:{
+                name:req.body.name ,
+                service_name:req.body.service_name ,
+                service:req.body.service,
+                thumb:req.body.thumb,
+                about: req.body.about,
+                cost: req.body.cost,
+                isActive: true
+            }
+        },(err,result)=>{
+            if(err) throw err;
+            res.send('Data Updated')
+        }
+    )
+})
 
-//         }
-//     )
-// })
-//softDelete(deactivate)
-// app.put('/deactivateServicelist',(req,res)=>{
-//     db.collection(col_name4).updateOne(
-//         {_id:mongo.ObjectId (req.body._id)},
-//         {
-//             $set:{
-               
-               
-//                 "isActive": false
-//             }
-//         },(err,result)=>{
-//             if(err)throw err;
-//             res.send('Servicelist Deactivate')
+//delet
+app.delete('/deleteServicelist',(req,res)=>{
+    db.collection(col_name4)
+    .remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
+      if(err)throw err;
+      res.send('Data Deleted')
+    })
+})
 
-//         }
-//     )
-// })
-// //softDelete(activate)
-// app.put('/activateServicelist',(req,res)=>{
-//     db.collection(col_name4).updateOne(
-//         {_id:mongo.ObjectId (req.body._id)},
-//         {
-//             $set:{
-               
-               
-//                 "isActive": true
-//             }
-//         },(err,result)=>{
-//             if(err)throw err;
-//             res.send('Servicelist Activated')
 
-//         }
-//     )
-// })
-//Read
+// Read
 app.get('/servicedetails',(req,res)=>{
     var query={}
-    query = {isActive:true}
-    db.collection(col_name5).find(query).toArray((err,result)=>{
+     query={isActive:true}
+        db.collection(col_name5).find(query).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
 
 })
-app.get('/servicedetail/:id',(req,res)=>{
-    var id = mongo.ObjectId(req.params.id)
+//Read
+app.get('/servicedetail/:service',(req,res)=>{
+    
+    var service =(req.params.service)
+    db.collection(col_name5).find({service:service}).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+
+})
+
+//Read
+app.get('/servicedetails/:id',(req,res)=>{
+    var id = (req.params.id)
     db.collection(col_name5).find({_id:id}).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
-
 })
-//Insert
+
+//Add
 app.post('/addServicedetail',(req,res)=>{
     console.log(req.body)
     db.collection(col_name5).insert(req.body,(err,result)=>{
@@ -337,65 +320,92 @@ app.post('/addServicedetail',(req,res)=>{
     })
 })
 //update
-// app.put('/updateServicedetail',(req,res)=>{
-//     db.collection(col_name5).updateOne(
-//         {_id:mongo.ObjectId(req.body._id)},
-//         {
-//             $set: {
+app.put('/updateServicedetail',(req,res)=>{
+    db.collection(col_name5).updateOne(
+        {_id:mongo.ObjectId(req.body._id)},
+        {
+            $set:{
+                name:req.body.name,
+                service_name: req.body.service_name,
+                service:req.body.service,
+                thumb: req.body.thumb,
+                about:req.body.about,
+
+                cost: req.body.cost,
+                  isActive: true,
+                  "tripId":[
+                      {
+                          trip:req.body.trip,
+                          name:req.body.name,
+                         
+                      }
+                  ]
                
-//                 name: req.body.name,
-//                 service_name:req.body.service_name,
-//                 service: req.body.service,
-//                 thumb: req.body.thumb,
-//                 about: req.body.about,
-//                 cost: req.body.cost,
-//                 isActive: true,
-//                  trip: req.body.trip,
-               
-                   
                  
-               
-//             },
-//         },(err,result)=>{
-//             if(err) throw err;
-//             res.send('Data Updated')
-//         }
-//     )
-// })
+
+                
+ }
+            
+        },(err,result)=>{
+            if(err) throw err;
+            res.send('Data Updated')
+        }
+    )
+})
+//delete
 app.delete('/deleteServicedetail',(req,res)=>{
     db.collection(col_name5).remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
-        if(err)throw err;
+        if(err) throw err;
         res.send('Data Deleted')
     })
 })
-//deactivateDelete(deactivate)
+
+    
 app.put('/deactivateServicedetail',(req,res)=>{
     db.collection(col_name5).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
-            $set: {
-                 isActive: false
-                 },
+            $set:{
+                isActive:false
+            }
         },(err,result)=>{
             if(err) throw err;
-            res.send('Servicedetail Deactivate')
+            res.send('Servicedetail Deactivated')
         }
     )
 })
-//activateDelete(activate)
+//softDelete(activate)
 app.put('/activateServicedetail',(req,res)=>{
     db.collection(col_name5).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
-            $set: {
-                 isActive: true
-                 },
+            $set:{
+                isActive:true
+            }
         },(err,result)=>{
             if(err) throw err;
-            res.send('Servicedetail Activate')
+            res.send('Servicedetail Activated')
         }
     )
 })
+//Read
+app.get('/placeBooking',(req,res)=>{
+db.collection(col_name6).find().toArray((err,result)=>{
+    if(err) throw err;
+    res.send(result)
+})
+
+})
+//Insert
+app.post('/addplaceBooking',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name6).insert(req.body,(err,result) => {
+        if(err) throw err;
+        res.send('Data Added')
+    })
+})
+
+
 app.use("/",router)
 
 //Db Connection
