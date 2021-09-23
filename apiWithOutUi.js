@@ -18,6 +18,7 @@ let col_name = "freelanceapi"
  let col_name4="freelanceapi4"
  let col_name5="freelanceapi5"
  let col_name6="freelanceapi6"
+ let col_name7="freelanceapi7"
 //  let col_name6="freelanceapi6"
 
 app.use(bodyParser.urlencoded({extended:true}))
@@ -390,16 +391,16 @@ app.put('/activateServicedetail',(req,res)=>{
 })
 //Read
 app.get('/placeBooking',(req,res)=>{
-db.collection(col_name6).find().toArray((err,result)=>{
+db.collection(col_name7).find().toArray((err,result)=>{
     if(err) throw err;
     res.send(result)
 })
 
 })
 //Insert
-app.post('/addplaceBooking',(req,res)=>{
+app.post('/addPlaceBooking',(req,res)=>{
     console.log(req.body)
-    db.collection(col_name6).insert(req.body,(err,result) => {
+    db.collection(col_name7).insert(req.body,(err,result) => {
         if(err) throw err;
         res.send('Data Added')
     })
