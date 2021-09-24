@@ -17,7 +17,7 @@ let col_name = "freelanceapi"
  let col_name3="freelanceapi3"
  let col_name4="freelanceapi4"
  let col_name5="freelanceapi5"
- let col_name6="freelanceapi6"
+//  let col_name6="freelanceapi6"
  let col_name7="freelanceapi7"
 //  let col_name6="freelanceapi6"
 
