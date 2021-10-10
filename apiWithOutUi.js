@@ -8,7 +8,7 @@ const MongoClient = mongo.MongoClient;
 const bodyParser = require ('body-parser')
 const cors = require ('cors');
  app.use(cors())
-const mongourl = "mongodb://localhost:27017";
+const mongourl ="mongodb+srv://naturewithcode:nature123@cluster0.yf62c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 let db;
 let col_name = "freelanceapi"
