@@ -1,14 +1,16 @@
 const express = require ('express');
-const app = express();
+// const app = express();
 
 var router = express.Router();
-const port = process.env.PORT || 9800;
-const mongo = require ('mongodb')
-const MongoClient = mongo.MongoClient;
+// const port = process.env.PORT || 9800;
+// const mongo = require ('mongodb')
+// const MongoClient = mongo.MongoClient;
 const bodyParser = require ('body-parser')
-const cors = require ('cors');
- app.use(cors())
-const mongourl ="mongodb+srv://naturewithcode:nature123@cluster0.yf62c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const Booked = require('./bookedSchema')
+
+// const cors = require ('cors');
+//  app.use(cors())
+// const mongourl ="mongodb+srv://naturewithcode:nature123@cluster0.yf62c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 let db;
 let col_name = "freelanceapi"
@@ -18,19 +20,19 @@ let col_name = "freelanceapi"
  let col_name4="freelanceapi4"
  let col_name5="freelanceapi5"
 //  let col_name6="freelanceapi6"
- let col_name6="freelanceapi6"
+ let col_name6="Booked"
 //  let col_name6="freelanceapi6"
 
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(bodyParser.json())
+router.use(bodyParser.urlencoded({extended:true}))
+router.use(bodyParser.json())
 
-app.get('/health',(req,res)=>{
+router.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 
 });
 
 //Read
-app.get('/service',(req,res)=>{
+router.get('/service',(req,res)=>{
     var query ={}
     if(req.query.service){
         query={service:req.query.service,isActive:true}
@@ -44,7 +46,7 @@ app.get('/service',(req,res)=>{
     })
 })
 //userDetails
-app.get('/Service/:id',(req,res)=>{
+router.get('/Service/:id',(req,res)=>{
     var id = mongo.ObjectId(req.params.id)
     db.collection(col_name).find({_id:id}).toArray((err,result)=>{
         if(err)throw err;
@@ -52,7 +54,7 @@ app.get('/Service/:id',(req,res)=>{
     })
 })
 //Insert
-app.post('/addService',(req,res)=>{
+router.post('/addService',(req,res)=>{
     console.log(req.body)
     db.collection(col_name).insert(req.body,(err,result)=>{
         if(err) throw err;
@@ -60,7 +62,7 @@ app.post('/addService',(req,res)=>{
     })
 })
 //update
-app.put('/updateService',(req,res)=>{
+router.put('/updateService',(req,res)=>{
     db.collection(col_name).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -77,7 +79,7 @@ app.put('/updateService',(req,res)=>{
     )
 })
 //delet
-app.delete('/deleteService',(req,res)=>{
+router.delete('/deleteService',(req,res)=>{
     db.collection(col_name)
     .remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
         if(err) throw err;
@@ -85,7 +87,7 @@ app.delete('/deleteService',(req,res)=>{
     })
 })
 //softDelete(deactivate)
-app.put('/deactivateService',(req,res)=>{
+router.put('/deactivateService',(req,res)=>{
     db.collection(col_name).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -99,7 +101,7 @@ app.put('/deactivateService',(req,res)=>{
     )
 })
 //softDelete(activate)
-app.put('/activateService',(req,res)=>{
+router.put('/activateService',(req,res)=>{
     db.collection(col_name).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -115,7 +117,7 @@ app.put('/activateService',(req,res)=>{
 
 // services type
 // Read
-app.get('/types',(req,res)=>{
+router.get('/types',(req,res)=>{
     var query={}
     if(req.query.service){
         query={service:req.query.service,isActive:true}
@@ -132,7 +134,7 @@ app.get('/types',(req,res)=>{
 })
 
 //userDetails
-app.get('/types/:id',(req,res)=>{
+router.get('/types/:id',(req,res)=>{
     var id = mongo.ObjectId(req.params.id)
     db.collection(col_name2).find({_id:id}).toArray((err,result)=>{
         if(err) throw err;
@@ -141,7 +143,7 @@ app.get('/types/:id',(req,res)=>{
 
 })
 //Add
-app.post('/addType',(req,res)=>{
+router.post('/addType',(req,res)=>{
     console.log(req.body)
     db.collection(col_name2).insert(req.body,(err,result)=>{
         if(err) throw err;
@@ -149,7 +151,7 @@ app.post('/addType',(req,res)=>{
     })
 })
 //update
-app.put('/updateType',(req,res)=>{
+router.put('/updateType',(req,res)=>{
     db.collection(col_name2).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -173,7 +175,7 @@ app.put('/updateType',(req,res)=>{
 })
 
 //delet
-app.delete('/deleteType',(req,res)=>{
+router.delete('/deleteType',(req,res)=>{
     db.collection(col_name2)
     .remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
       if(err)throw err;
@@ -181,7 +183,7 @@ app.delete('/deleteType',(req,res)=>{
     })
 })
 //softDelete(deactivate)
-app.put('/deactivateType',(req,res)=>{
+router.put('/deactivateType',(req,res)=>{
     db.collection(col_name2).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -198,7 +200,7 @@ app.put('/deactivateType',(req,res)=>{
     )
 })
 //activateDelete(activate)
-app.put('/activateType',(req,res)=>{
+router.put('/activateType',(req,res)=>{
     db.collection(col_name2).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -216,14 +218,14 @@ app.put('/activateType',(req,res)=>{
 })
 
 // Booking type
-app.get('/booking',(req,res)=>{
+router.get('/booking',(req,res)=>{
     db.collection(col_name3).find().toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
 })
 //Insert
-app.post('/addBooking',(req,res)=>{
+router.post('/addBooking',(req,res)=>{
     console.log(req.body)
     db.collection(col_name3).insert(req.body,(err,result)=>{
         if(err) throw err;
@@ -232,7 +234,7 @@ app.post('/addBooking',(req,res)=>{
 })
 
 // Read
-app.get('/servicelists',(req,res)=>{
+router.get('/servicelists',(req,res)=>{
     db.collection(col_name4).find().toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
@@ -241,7 +243,7 @@ app.get('/servicelists',(req,res)=>{
 
 
 //Add
-app.post('/addServicelist',(req,res)=>{
+router.post('/addServicelist',(req,res)=>{
     console.log(req.body)
     db.collection(col_name4).insert(req.body,(err,result)=>{
         if(err) throw err;
@@ -252,7 +254,7 @@ app.post('/addServicelist',(req,res)=>{
 
 
 //update
-app.put('/updateServicelist',(req,res)=>{
+router.put('/updateServicelist',(req,res)=>{
     db.collection(col_name4).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -273,7 +275,7 @@ app.put('/updateServicelist',(req,res)=>{
 })
 
 //delet
-app.delete('/deleteServicelist',(req,res)=>{
+router.delete('/deleteServicelist',(req,res)=>{
     db.collection(col_name4)
     .remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
       if(err)throw err;
@@ -283,7 +285,7 @@ app.delete('/deleteServicelist',(req,res)=>{
 
 
 // Read
-app.get('/servicedetails',(req,res)=>{
+router.get('/servicedetails',(req,res)=>{
     var query={}
      query={isActive:true}
         db.collection(col_name5).find(query).toArray((err,result)=>{
@@ -293,7 +295,7 @@ app.get('/servicedetails',(req,res)=>{
 
 })
 //Read
-app.get('/servicedetail/:service',(req,res)=>{
+router.get('/servicedetail/:service',(req,res)=>{
     
     var service =(req.params.service)
     db.collection(col_name5).find({service:service}).toArray((err,result)=>{
@@ -304,7 +306,7 @@ app.get('/servicedetail/:service',(req,res)=>{
 })
 
 //Read
-app.get('/servicedetails/:id',(req,res)=>{
+router.get('/servicedetails/:id',(req,res)=>{
     var id = (req.params.id)
     db.collection(col_name5).find({_id:id}).toArray((err,result)=>{
         if(err) throw err;
@@ -313,7 +315,7 @@ app.get('/servicedetails/:id',(req,res)=>{
 })
 
 //Add
-app.post('/addServicedetail',(req,res)=>{
+router.post('/addServicedetail',(req,res)=>{
     console.log(req.body)
     db.collection(col_name5).insert(req.body,(err,result)=>{
         if(err) throw err;
@@ -321,7 +323,7 @@ app.post('/addServicedetail',(req,res)=>{
     })
 })
 //update
-app.put('/updateServicedetail',(req,res)=>{
+router.put('/updateServicedetail',(req,res)=>{
     db.collection(col_name5).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -354,7 +356,7 @@ app.put('/updateServicedetail',(req,res)=>{
     )
 })
 //delete
-app.delete('/deleteServicedetail',(req,res)=>{
+router.delete('/deleteServicedetail',(req,res)=>{
     db.collection(col_name5).remove({_id:mongo.ObjectId(req.body._id)},(err,result)=>{
         if(err) throw err;
         res.send('Data Deleted')
@@ -362,7 +364,7 @@ app.delete('/deleteServicedetail',(req,res)=>{
 })
 
     
-app.put('/deactivateServicedetail',(req,res)=>{
+router.put('/deactivateServicedetail',(req,res)=>{
     db.collection(col_name5).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -376,7 +378,7 @@ app.put('/deactivateServicedetail',(req,res)=>{
     )
 })
 //softDelete(activate)
-app.put('/activateServicedetail',(req,res)=>{
+router.put('/activateServicedetail',(req,res)=>{
     db.collection(col_name5).updateOne(
         {_id:mongo.ObjectId(req.body._id)},
         {
@@ -390,7 +392,7 @@ app.put('/activateServicedetail',(req,res)=>{
     )
 })
 //Read
-app.get('/placeBooking',(req,res)=>{
+router.get('/placeBooking',(req,res)=>{
 db.collection(col_name6).find().toArray((err,result)=>{
     if(err) throw err;
     res.send(result)
@@ -398,7 +400,7 @@ db.collection(col_name6).find().toArray((err,result)=>{
 
 })
 //Insert
-app.post('/addPlaceBooking',(req,res)=>{
+router.post('/addPlaceBooking',(req,res)=>{
     console.log(req.body)
     db.collection(col_name6).insert(req.body,(err,result) => {
         if(err) throw err;
@@ -407,13 +409,14 @@ app.post('/addPlaceBooking',(req,res)=>{
 })
 
 
-app.use("/",router)
+// app.use("/",router)
 
-//Db Connection
-MongoClient.connect(mongourl,(err,client)=>{
-    if(err) console.log('Error while connecting');
-    db=client.db('octobernode');
-    app.listen(port,(err)=>{
-        console.log(`Server is running on port ${port}`)
-    })
-})
+// //Db Connection
+// MongoClient.connect(mongourl,(err,client)=>{
+//     if(err) console.log('Error while connecting');
+//     db=client.db('octobernode');
+//     app.listen(port,(err)=>{
+//         console.log(`Server is running on port ${port}`)
+//     })
+// })
+module.exports = router;
