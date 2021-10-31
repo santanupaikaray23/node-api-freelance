@@ -28,6 +28,9 @@ app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 
 });
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(client/build));
+}
 
 //Read
 app.get('/service',(req,res)=>{
