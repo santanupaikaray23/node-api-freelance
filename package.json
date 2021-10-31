@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node apiWithOutUi",
+    "dev": "nodemon apiWithOutUi"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-     "mongoose": "^5.11.15"
+    "mongodb": "^4.1.3",
+    "mongoose": "^5.11.15"
   }
 }
