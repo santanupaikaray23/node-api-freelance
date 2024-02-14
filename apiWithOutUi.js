@@ -1,7 +1,7 @@
 const express = require ('express');
 const app = express()
 var router = express.Router();
-const port = process.env.PORT || 9800;
+const port = process.env.PORT || 9700;
 const mongo = require ('mongodb')
 const MongoClient = mongo.MongoClient;
 const bodyParser = require ('body-parser')
@@ -9,9 +9,9 @@ const nodemailer = require('nodemailer');
 const cors = require ('cors');
 
  app.use(cors())
- const mongourl = "mongodb+srv://portfolio:portfolio1996@cluster0.yf62c.mongodb.net/?retryWrites=true&w=majority";
+ const mongourl = "mongodb://localhost:27017";
 let db;
-let col_name = "information"
+let col_name = "dashboard"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -82,7 +82,7 @@ app.use("/",router)
 
 MongoClient.connect(mongourl,(err,client)=>{
     if(err) console.log('Error while connecting');
-    db=client.db('portfolio');
+    db=client.db('sample');
     app.listen(port,(err)=>{
         console.log(`Server is running on port ${port}`)
     })
