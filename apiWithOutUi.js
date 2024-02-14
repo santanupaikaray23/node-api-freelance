@@ -45,7 +45,7 @@ app.post('/addUsers',(req,res)=>{
         var mailOptions = {
             from: 'santanupaikaray1996@gmail.com',
             to: req.body.email,
-            subject: 'Thanks for Contact Me',
+            subject: 'Thank you for Contacting me',
             text: 'Hi, \n \n I got your Message. \n \n I will get back you after some time. \n \n \n Regards,\n Santanu Paikaray \n Phone no. 8917310896',
         
 
