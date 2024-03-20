@@ -5,6 +5,7 @@ const mongo = require('mongodb');
 // const MongoClient = mongo.MongoClient;
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
 const cors = require('cors')
 app.use(cors())
@@ -23,8 +24,51 @@ app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 })
 
-
+//Read
+app.get('/users',(req,res)=>{
+    db.collection(col_name5).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
     
+// Insert
+app.post('/addUsers',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name5).insert(req.body,(err,result)=>{
+        if(err){
+            console.log(err);
+            return res.status(500).send('Error adding data');
+        }
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth:{
+                user: 'santanupaikaray1996@gmail.com',
+                pass: 'aghr bhwz lxii uvzo'
+            }
+        })
+        var mailOptions = {
+            from: 'santanupaikaray1996@gmail.com',
+            to: req.body.email,
+            subject: 'Thank you for Contacting Santanu Paikaray',
+            text: 'Hi, \n \n I got your Message. \n \n I will get back you after some time. \n \n \n Regards,\n Santanu Paikaray \n Phone no. 8917310896',
+        
+
+             
+    
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            return res.status(500).send('Error sending email');
+        }else{
+            console.log("email sent" + info.response);
+            return res.send('Data Added and Email Sent')
+        }
+        })
+    })
+})
+
 //Read
 app.get('/services',(req,res)=>{
     db.collection(col_name1).find().toArray((err,result)=>{
