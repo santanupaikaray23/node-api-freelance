@@ -17,6 +17,7 @@ let col_name3 = "col3"
 let col_name4 = "col4"
 let col_name5 = "col5"
 let col_name6 = "col6"
+let col_name7 = "col7"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -24,6 +25,51 @@ app.use(bodyParser.json())
 app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 })
+
+app.get('/postedjob',(req,res)=>{
+    db.collection(col_name7).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+    
+// Insert
+app.post('/addpostedjob',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name7).insert(req.body,(err,result)=>{
+        if(err){
+            console.log(err);
+            return res.status(500).send('Error adding data');
+        }
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth:{
+                user: 'santanupaikaray1996@gmail.com',
+                pass: 'aghr bhwz lxii uvzo'
+            }
+        })
+        var mailOptions = {
+            from: 'santanupaikaray1996@gmail.com',
+            to: req.body.email,
+            subject: 'Thank you for Contacting Santanu Paikaray',
+            text: 'Hi, \n \n I got your Message. \n \n I will get back you after some time. \n \n \n Regards,\n Santanu Paikaray \n Phone no. 8917310896',
+        
+
+             
+    
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            return res.status(500).send('Error sending email');
+        }else{
+            console.log("email sent" + info.response);
+            return res.send('Data Added and Email Sent')
+        }
+        })
+    })
+})
+
 
 //Read
 app.get('/jobs',(req,res)=>{
@@ -41,30 +87,6 @@ app.post('/addjobs',(req,res)=>{
         res.send('Data Added')
     })
 })
-
- app.get('/jobsdetails',(req,res)=>{
-     var query = {}
-    query= {isActivate:true}
-     db.collection(col_name6).find().toArray((err,result)=>{
-        if(err) throw err;
-         res.send(result)
-     })
- })
-
-//serviceDetails
-app.get('/jobsdetail/:servicetypeId', (req, res) => {
-    // Convert personId from string to number as it's stored as a number in your data
-    const servicetypeId = parseInt(req.params.servicetypeId);
-
-    db.collection(col_name6).find({"servicetype._id": servicetypeId}).toArray((err, result) => {
-        if (err) {
-            res.status(500).send('Error fetching data');
-            return;
-        }
-        res.send(result);
-    });
-});
-
 
 //Read
 app.get('/users',(req,res)=>{
