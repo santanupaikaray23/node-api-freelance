@@ -16,6 +16,7 @@ let col_name2 = "col2"
 let col_name3 = "col3"
 let col_name4 = "col4"
 let col_name5 = "col5"
+let col_name6 = "col6"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -23,6 +24,47 @@ app.use(bodyParser.json())
 app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 })
+
+//Read
+app.get('/jobs',(req,res)=>{
+    db.collection(col_name6).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//Insert
+app.post('/addjobs',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name6).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+    })
+})
+
+ app.get('/jobsdetails',(req,res)=>{
+     var query = {}
+    query= {isActivate:true}
+     db.collection(col_name6).find().toArray((err,result)=>{
+        if(err) throw err;
+         res.send(result)
+     })
+ })
+
+//serviceDetails
+app.get('/jobsdetail/:servicetypeId', (req, res) => {
+    // Convert personId from string to number as it's stored as a number in your data
+    const servicetypeId = parseInt(req.params.servicetypeId);
+
+    db.collection(col_name6).find({"servicetype._id": servicetypeId}).toArray((err, result) => {
+        if (err) {
+            res.status(500).send('Error fetching data');
+            return;
+        }
+        res.send(result);
+    });
+});
+
 
 //Read
 app.get('/users',(req,res)=>{
