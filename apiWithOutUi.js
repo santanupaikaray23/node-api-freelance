@@ -19,6 +19,7 @@ let col_name5 = "col5"
 let col_name6 = "col6"
 let col_name7 = "col7"
 let col_name8 = "col8"
+let col_name9 = "col9"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -26,6 +27,23 @@ app.use(bodyParser.json())
 app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
 })
+//Read
+app.get('/contact',(req,res)=>{
+    db.collection(col_name9).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//Insert
+app.post('/addcontacts',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name9).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+    })
+})
+
 
 //Read
 app.get('/teams',(req,res)=>{
