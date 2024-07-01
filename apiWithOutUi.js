@@ -43,12 +43,12 @@ app.post('/addcontacts',(req,res)=>{
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth:{
-                user: 'santanupaikaray1996@gmail.com',
-                pass: 'umxv mlbz qlgb qcdb'
+                user: 'nwithcode@gmail.com',
+                pass: 'sdfg ddfw tuui ofsq'
             }
         })
         var mailOptions = {
-            from: 'santanupaikaray1996@gmail.com',
+            from: 'nwithcode@gmail.com',
             to: req.body.email,
             subject: 'Thank You for Contacting Us!!',
             text: 'Hi, \n \n We got Your Message. \n \n One of your Authority will contact you as soon as possible. \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
@@ -85,12 +85,12 @@ app.post('/addUsers',(req,res)=>{
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth:{
-                user: 'santanupaikaray1996@gmail.com',
-                pass: 'umxv mlbz qlgb qcdb'
+                user: 'nwithcode@gmail.com',
+                pass: 'sdfg ddfw tuui ofsq'
             }
         })
         var mailOptions = {
-            from: 'santanupaikaray1996@gmail.com',
+            from: 'nwithcode@gmail.com',
             to: req.body.email,
             subject: 'You Registered Successfully !!',
             text: 'Hi, \n \n Thank you for choosing your Service. \n \n You have Registered Successfully. \n \n One of your Authority will contact you as soon as possible. \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
