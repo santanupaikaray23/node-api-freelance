@@ -44,7 +44,7 @@ app.post('/addUsers',(req,res)=>{
             service: 'gmail',
             auth:{
                 user: 'santanupaikaray1996@gmail.com',
-                pass: 'aghr bhwz lxii uvzo'
+                pass: 'umxv mlbz qlgb qcdb'
             }
         })
         var mailOptions = {
