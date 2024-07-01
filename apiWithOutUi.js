@@ -13,7 +13,7 @@ const mongourl = "mongodb+srv://portfolio:portfolio1996@cluster0.yf62c.mongodb.n
 let db;
 let col_name1 = "col1"
 // let col_name2 = "col2"
-// let col_name3 = "col3"
+let col_name3 = "col3"
 let col_name4 = "col4"
 let col_name5 = "col5"
 
@@ -22,6 +22,48 @@ app.use(bodyParser.json())
 
 app.get('/health',(req,res)=>{
     res.status(200).send('Health Check')
+})
+
+//Read
+app.get('/contacts',(req,res)=>{
+    db.collection(col_name3).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+// Insert
+app.post('/addcontacts',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name3).insert(req.body,(err,result)=>{
+        if(err){
+            console.log(err);
+            return res.status(500).send('Error adding data');
+        }
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth:{
+                user: 'santanupaikaray1996@gmail.com',
+                pass: 'umxv mlbz qlgb qcdb'
+            }
+        })
+        var mailOptions = {
+            from: 'santanupaikaray1996@gmail.com',
+            to: req.body.email,
+            subject: 'Thank You for Contacting Us!!',
+            text: 'Hi, \n \n We got Your Message. \n \n One of your Authority will contact you as soon as possible. \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
+            
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            return res.status(500).send('Error sending email');
+        }else{
+            console.log("email sent" + info.response);
+            return res.send('Data Added and Email Sent')
+        }
+        })
+    })
 })
 
 //Read
