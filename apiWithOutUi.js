@@ -12,8 +12,8 @@ app.use(cors())
 const mongourl = "mongodb+srv://portfolio:portfolio1996@cluster0.yf62c.mongodb.net/?retryWrites=true&w=majority";
 let db;
 let col_name1 = "col1"
-let col_name2 = "col2"
-let col_name3 = "col3"
+// let col_name2 = "col2"
+// let col_name3 = "col3"
 let col_name4 = "col4"
 let col_name5 = "col5"
 
@@ -50,8 +50,8 @@ app.post('/addUsers',(req,res)=>{
         var mailOptions = {
             from: 'santanupaikaray1996@gmail.com',
             to: req.body.email,
-            subject: 'Thank you for Contacting Santanu Paikaray',
-            text: 'Hi, \n \n I got your Message. \n \n I will get back you after some time. \n \n \n Regards,\n Santanu Paikaray \n Phone no. 8917310896',
+            subject: 'You Registered Successfully !!',
+            text: 'Hi, \n \n We got your Message. \n \n One of your Authority will contact you as soon as possible. \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
 
 
 
@@ -122,53 +122,53 @@ app.post('/addservicesdetail',(req,res)=>{
 
 
 
-//Read
+// //Read
 
-app.get('/separatetype',(req,res)=>{
-     db.collection(col_name3).find().toArray((err,result)=>{
-         if(err) throw err;
-         res.send(result)
-     })
- })
+// app.get('/separatetype',(req,res)=>{
+//      db.collection(col_name3).find().toArray((err,result)=>{
+//          if(err) throw err;
+//          res.send(result)
+//      })
+//  })
 
- //Insert
- app.post('/addseparatetype',(req,res)=>{
-     console.log(req.body)
-     db.collection(col_name3).insert(req.body,(err,result)=>{
-         if(err) throw err;
-         res.send('Data Added')
-     })
- })
+//  //Insert
+//  app.post('/addseparatetype',(req,res)=>{
+//      console.log(req.body)
+//      db.collection(col_name3).insert(req.body,(err,result)=>{
+//          if(err) throw err;
+//          res.send('Data Added')
+//      })
+//  })
 
- app.get('/check/:separatetypeId', (req, res) => {
-    // Convert personId from string to number as it's stored as a number in your data
-    const separatetypeId = parseInt(req.params.separatetypeId);
+//  app.get('/check/:separatetypeId', (req, res) => {
+//     // Convert personId from string to number as it's stored as a number in your data
+//     const separatetypeId = parseInt(req.params.separatetypeId);
 
-    db.collection(col_name3).find({"separatetype._id": separatetypeId}).toArray((err, result) => {
-        if (err) {
-            res.status(500).send('Error fetching data');
-            return;
-        }
-        res.send(result);
-    });
-});
+//     db.collection(col_name3).find({"separatetype._id": separatetypeId}).toArray((err, result) => {
+//         if (err) {
+//             res.status(500).send('Error fetching data');
+//             return;
+//         }
+//         res.send(result);
+//     });
+// });
 
-//update
-app.put('/updateservices',(req,res)=>{
-    db.collection(col_name1).updateOne(
-        {_id:mongo.ObjectID(req.body._id)},
-        {
-            $set:{
-    service: req.body.service,         
-    name: req.body.name,
-    image: req.body.image
-            }
-        },(err,result)=>{
-            if(err) throw err;
-            res.send('Data Updated')
-        }
-    )
-})
+// //update
+// app.put('/updateservices',(req,res)=>{
+//     db.collection(col_name1).updateOne(
+//         {_id:mongo.ObjectID(req.body._id)},
+//         {
+//             $set:{
+//     service: req.body.service,         
+//     name: req.body.name,
+//     image: req.body.image
+//             }
+//         },(err,result)=>{
+//             if(err) throw err;
+//             res.send('Data Updated')
+//         }
+//     )
+// })
 
 //delete
 app.delete('/deleteservices',(req,res)=>{
@@ -208,21 +208,6 @@ app.put('/deactivateservices',(req,res)=>{
     )
 })
 
-//Read
-app.get('/Placementoffered',(req,res)=>{
-    db.collection(col_name2).find().toArray((err,result)=>{
-        if(err) throw err;
-        res.send(result)
-    })
-})
-//Insert
-app.post('/addPlacementoffered',(req,res)=>{
-    console.log(req.body)
-    db.collection(col_name2).insert(req.body,(err,result)=>{
-        if(err) throw err;
-        res.send('Data Added')
-    })
-})
 
 
 
