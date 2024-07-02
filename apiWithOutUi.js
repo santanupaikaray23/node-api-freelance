@@ -50,8 +50,8 @@ app.post('/addcontacts',(req,res)=>{
         var mailOptions = {
             from: 'nwithcode@gmail.com',
             to: req.body.email,
-            subject: 'Thank You for Contacting Us!!',
-            text: 'Hi, \n \n We got Your Message. \n \n One of your Authority will contact you as soon as possible. \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
+            subject: 'ଆମକୁ Contact କରିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ !!',
+            text: 'Hi, \n \n ଆମେ ଆପଣଙ୍କ Message ପାଇଲୁ । \n \n  ଆମେ ଆପଣଙ୍କୁ ବହୁ ଶୀଘ୍ର Contract କରିବୁ । \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
             
         };
         transporter.sendMail(mailOptions, function(error, info){
@@ -92,8 +92,8 @@ app.post('/addUsers',(req,res)=>{
         var mailOptions = {
             from: 'nwithcode@gmail.com',
             to: req.body.email,
-            subject: 'You Registered Successfully !!',
-            text: 'Hi, \n \n Thank you for choosing your Service. \n \n You have Registered Successfully. \n \n One of your Authority will contact you as soon as possible. \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
+            subject: 'ଆପଣ Successfully ରେଜିଷ୍ଟର ହୋଇଛନ୍ତି !!',
+            text: 'Hi, \n \n ଆମ ସର୍ଭିସ ବାଛିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ । \n \n ଆପଣ Successfully ରେଜିଷ୍ଟର ହୋଇଛନ୍ତି । \n \n ଆମେ ଆପଣଙ୍କୁ ବହୁ ଶୀଘ୍ର Contract କରିବୁ । \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
 
 
 
