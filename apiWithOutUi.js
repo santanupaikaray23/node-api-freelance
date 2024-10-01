@@ -128,14 +128,28 @@ app.post('/addservices',(req,res)=>{
     })
 })
 
- app.get('/servicesdetails',(req,res)=>{
-     var query = {}
-    query= {isActivate:true}
-     db.collection(col_name4).find().toArray((err,result)=>{
-        if(err) throw err;
-         res.send(result)
-     })
- })
+//  app.get('/servicesdetails',(req,res) => {
+//      var query = {}
+//     query= {isActivate:true}
+//      db.collection(col_name4).find().toArray((err,result)=>{
+//         if(err) throw err;
+//          res.send(result)
+//      })
+//  })
+
+ app.get('/servicesdetails',(req,res) => {
+    var query = {}
+  if(req.query.name){
+   query={name:req.query.name,isActive:true}
+  }else{
+   query = {isActive:true}
+  }
+  db.collection(col_name4).find(query).toArray((err,result)=>{
+   if(err) throw err;
+   res.send(result)
+
+  })
+})
 
 //serviceDetails
 app.get('/servicesdetail/:servicetypeId', (req, res) => {
@@ -150,6 +164,7 @@ app.get('/servicesdetail/:servicetypeId', (req, res) => {
         res.send(result);
     });
 });
+
 
 
 //Insert
