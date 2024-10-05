@@ -12,7 +12,7 @@ app.use(cors())
 const mongourl = "mongodb+srv://portfolio:portfolio1996@cluster0.yf62c.mongodb.net/?retryWrites=true&w=majority";
 let db;
 let col_name1 = "col1"
-// let col_name2 = "col2"
+let col_name2 = "col2"
 let col_name3 = "col3"
 let col_name4 = "col4"
 let col_name5 = "col5"
@@ -265,6 +265,21 @@ app.put('/deactivateservices',(req,res)=>{
     )
 })
 
+app.get('/booking',(req,res)=>{
+    db.collection(col_name2).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//Insert
+app.post('/addbooking',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name2).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+    })
+})
 
 
 
