@@ -92,8 +92,8 @@ app.post('/addUsers',(req,res)=>{
         var mailOptions = {
             from: 'nwithcode@gmail.com',
             to: req.body.email,
-            subject: 'ଆପଣ Successfully ରେଜିଷ୍ଟର ହୋଇଛନ୍ତି !!',
-            text: 'Hi, \n \n ଆମ ସର୍ଭିସ ବାଛିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ । \n \n ଆପଣ Successfully ରେଜିଷ୍ଟର ହୋଇଛନ୍ତି । \n \n ଆମେ ଆପଣଙ୍କୁ ବହୁ ଶୀଘ୍ର Contract କରିବୁ । \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
+            subject: 'ଆପଣଙ୍କ Enquiry ପାଇଁ ବହୁତ ଧନ୍ୟବାଦ !!',
+            text: 'Hi, \n \n ଆମେ ଆପଣଙ୍କ Enquiry Request ପାଇଲୁ । \n \n ଆମେ ଆପଣଙ୍କୁ ବହୁ ଶୀଘ୍ର Contract କରିବୁ । \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
 
 
 
@@ -276,8 +276,36 @@ app.get('/booking',(req,res)=>{
 app.post('/addbooking',(req,res)=>{
     console.log(req.body)
     db.collection(col_name2).insert(req.body,(err,result)=>{
-        if(err) throw err;
-        res.send('Data Added')
+        if(err){
+            console.log(err);
+            return res.status(500).send('Error adding data');
+        }
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth:{
+                user: 'nwithcode@gmail.com',
+                pass: 'sdfg ddfw tuui ofsq'
+            }
+        })
+        var mailOptions = {
+            from: 'nwithcode@gmail.com',
+            to: req.body.email,
+            subject: 'ଆପଣ Successfully ରେଜିଷ୍ଟର ହୋଇଛନ୍ତି !!',
+            text: 'Hi, \n \n ଆମ ସର୍ଭିସ ବାଛିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ । \n \n ଆପଣ Successfully ରେଜିଷ୍ଟର ହୋଇଛନ୍ତି । \n \n ଆମେ ଆପଣଙ୍କୁ ବହୁ ଶୀଘ୍ର Contract କରିବୁ । \n \n \n Regards,\n Nature With Code Team \n Phone no. 9668348106',
+
+
+
+
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            return res.status(500).send('Error sending email');
+        }else{
+            console.log("email sent" + info.response);
+            return res.send('Data Added and Email Sent')
+        }
+        })
     })
 })
 
