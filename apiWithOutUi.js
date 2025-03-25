@@ -40,8 +40,8 @@ app.post('/addcontacts',(req,res)=>{
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth:{
-                user: 'nwithcode@gmail.com',
-                pass: 'sdfg ddfw tuui ofsq'
+                user: 'santanupaikaray1996@gmail.com',
+                pass: 'ipjd xccp vczb zxca'
             }
         })
         var mailOptions = {
