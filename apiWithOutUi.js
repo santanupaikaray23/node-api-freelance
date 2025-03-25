@@ -45,10 +45,10 @@ app.post('/addcontacts',(req,res)=>{
             }
         })
         var mailOptions = {
-            from: 'nwithcode@gmail.com',
+            from: 'santanupaikaray1996@gmail.com',
             to: req.body.email,
-            subject: 'ମତେ Contact କରିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ !!',
-            text: 'Hi There, \n \n ମୁଁ ଆପଣଙ୍କ Message ପାଇଲି । \n \n ମୁଁ ଆପଣଙ୍କୁ ବହୁ ଶୀଘ୍ର Contract କରିବି । \n \n \n Regards,\n ସାନ୍ତନୁ କୁମାର ପାଇକରାୟ \n Phone no. 8917310896',
+            subject: 'Thank You for Contacting Me!!',
+            text: 'Hi There, \n \n I got your message. \n \n I will contact you as soon as possible. \n \n \n Thanks & Regards,\n Santanu Paikaray \n Phone no. 8917310896',
             
         };
         transporter.sendMail(mailOptions, function(error, info){
